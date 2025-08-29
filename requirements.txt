@@ -1,0 +1,13 @@
+ddddocr[api]
+beautifulsoup4
+selenium
+requests
+tqdm
+structlog
+fastapi
+pandas
+dotenv
+pytz
+openai
+pymongo
+python-telegram-bot
