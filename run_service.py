@@ -17,7 +17,7 @@ logging.basicConfig(
 
 structlog.configure(
     processors=[
-        structlog.processors.TimeStamper(fmt="%Y-%m-%d %H:%M:%S"),
+        structlog.processors.TimeStamper(fmt="%Y-%m-%d %H:%M:%S", utc=False),
         structlog.processors.add_log_level,
         structlog.dev.ConsoleRenderer(),  # 以 JSON 輸出
     ],
@@ -32,10 +32,25 @@ check_chrome_exists(force_redownload=False)
 
 import time
 import random
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+from threading import Thread
+
+def run_at_first_day_of_month():
+    while True:
+        sleep_seconds = ((datetime.now().replace(day=1) + relativedelta(months=1)).replace(hour=8, minute=0, second=0, microsecond=0) - datetime.now()).total_seconds()
+        logger.info(f"Sleeping until the first day of next month: (about {sleep_seconds} seconds)")
+        time.sleep(sleep_seconds + 10)  # wait a bit more to ensure it's the next month
+        logger.info("It's the first day of the month, fetching last month's invoices")
+        invoice_manager.fetch_last_month()
+
 
 if __name__ == "__main__":
     logger.info('Started invoice manager')
     invoice_manager = InvoiceManager()
+    thread = Thread(target=run_at_first_day_of_month, daemon=True)
+    thread.start()
+    
     while True:
         invoice_manager.fetch_once()
         sleep_time = random.randint(6000, 21600)

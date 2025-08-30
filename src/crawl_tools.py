@@ -6,6 +6,7 @@ import requests
 import structlog
 from typing import Optional, List, Dict, Tuple, Callable
 from datetime import datetime
+from dateutil import relativedelta
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -59,6 +60,7 @@ def login_and_generate_session() -> Optional[requests.Session]:
         attempt += 1
         if attempt >= 5:
             raise RuntimeError("Captcha verification failed after multiple attempts")
+        time.sleep(10)
     
     logger.info("Login successful, transferring cookies&token to requests session")
 
@@ -188,8 +190,6 @@ def get_invoice_datetime(session: requests.Session, invoice_token: str) -> datet
 def get_invoice_detail(session: requests.Session, invoice_token: str) -> List[dict]:
     logger.info("Fetching invoice detail")
     payload = invoice_token
-
-    
 
     resp = session.post("https://service-mc.einvoice.nat.gov.tw/btc/cloud/api/common/getCarrierInvoiceDetail", json=payload, params={'size': 100})
 
