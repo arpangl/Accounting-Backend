@@ -3,12 +3,17 @@ import structlog
 from telegram import Bot, InlineKeyboardButton, InlineKeyboardMarkup
 from src.einvoice import Invoice
 
-BOT_TOKEN = os.getenv("TELEGRAM_BOT_API")
-USER_ID = os.getenv("TELEGRAM_CHAT_ID")
+BOT_TOKEN = os.getenv("TELEGRAM_BOT_API", None)
+USER_ID = os.getenv("TELEGRAM_CHAT_ID", None)
 
 logger = structlog.get_logger()
 
 async def send_invoice_msg(invoice: Invoice):
+
+    if not BOT_TOKEN or not USER_ID:
+        logger.warning('Telegram bot token or user ID is not set, message sender function will not proceed')
+        return
+
     bot = Bot(BOT_TOKEN)
 
     invoice_cashew_url = invoice.to_cashew_url()

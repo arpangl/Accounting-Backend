@@ -1,13 +1,14 @@
 services:
   app:
     build: .
-    container_name: accounting-backend
+    container_name: einvoice-accounting-backend
     restart: unless-stopped
     environment:
       - TELEGRAM_BOT_API=${TELEGRAM_BOT_API}
       - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
       - EINVOICE_PHONE=${EINVOICE_PHONE}
       - EINVOICE_PASSWORD=${EINVOICE_PASSWORD}
+      - OPENAI_ENDPOINT=${OPENAI_ENDPOINT:-'https://api.openai.com/v1'}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - TZ=Asia/Taipei
     volumes:

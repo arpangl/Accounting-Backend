@@ -148,9 +148,11 @@ def get_invoice_list(session: requests.Session, jwt_token: str, size: int = 100)
         raise RuntimeError(f"Failed to fetch invoice list [options], status code: {resp.status_code}, response: {resp.text}")
 
     resp = session.post("https://service-mc.einvoice.nat.gov.tw/btc/cloud/api/btc502w/searchCarrierInvoice", json=payload, params={'size': size})
-    if resp.status_code != 200:
+    if resp.status_code > 400:
         raise RuntimeError(f"Failed to fetch invoice list [post], status code: {resp.status_code}, response: {resp.text}")
 
+    if resp.status_code == 204:
+        return []
     resp = resp.json()
     result_list = []
 

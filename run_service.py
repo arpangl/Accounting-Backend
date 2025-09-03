@@ -10,7 +10,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(message)s",
     handlers=[
-        logging.FileHandler("accounting-backend.log", encoding="utf-8"),  # 記錄到檔案
+        logging.FileHandler("einvoice-accounting-backend.log", encoding="utf-8"),
         logging.StreamHandler(),  # 同時輸出到 console
     ],
 )
@@ -19,7 +19,7 @@ structlog.configure(
     processors=[
         structlog.processors.TimeStamper(fmt="%Y-%m-%d %H:%M:%S", utc=False),
         structlog.processors.add_log_level,
-        structlog.dev.ConsoleRenderer(),  # 以 JSON 輸出
+        structlog.dev.ConsoleRenderer(),
     ],
     logger_factory=structlog.stdlib.LoggerFactory(),
     wrapper_class=structlog.stdlib.BoundLogger,
