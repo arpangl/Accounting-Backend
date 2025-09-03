@@ -6,7 +6,6 @@ import requests
 import structlog
 from typing import Optional, List, Dict, Tuple, Callable
 from datetime import datetime
-from dateutil import relativedelta
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC

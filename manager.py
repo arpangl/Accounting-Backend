@@ -5,7 +5,7 @@ load_dotenv('.env')
 import asyncio
 import json
 import structlog
-from datetime import datetime, timedelta
+from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import time
 import pymongo
@@ -23,10 +23,13 @@ from src.telegram_bot import send_invoice_msg
 
 logger = structlog.get_logger()
 
+import os
+MONGO_DB_URL = os.getenv('MONGO_DB_URL', None)
+
 class InvoiceManager:
     def __init__(self):
         self.invoice_list = []
-        self.client = pymongo.MongoClient("mongodb://192.168.0.103:27017/")
+        self.client = pymongo.MongoClient(f"mongodb://{MONGO_DB_URL}")
         self.db = self.client["invoice"]["lambert"]
 
 

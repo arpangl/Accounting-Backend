@@ -10,6 +10,7 @@ services:
       - EINVOICE_PASSWORD=${EINVOICE_PASSWORD}
       - OPENAI_ENDPOINT=${OPENAI_ENDPOINT:-'https://api.openai.com/v1'}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - MONGO_DB_URL=${MONGO_DB_URL}
       - TZ=Asia/Taipei
     volumes:
       - ./:/app

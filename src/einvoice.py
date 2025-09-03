@@ -1,7 +1,6 @@
 from dataclasses import InitVar, dataclass, field, asdict
 import json
 import urllib
-from datetime import datetime
 
 @dataclass
 class InvoiceItem:
